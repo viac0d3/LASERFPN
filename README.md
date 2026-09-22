@@ -1,4 +1,4 @@
-## Frequency-Enhanced and Spatial-Guided Feature Pyramid Network for Tiny Object Detection in Remote Sensing Images
+# Frequency-Enhanced and Spatial-Guided Feature Pyramid Network for Tiny Object Detection in Remote Sensing Images
 
 This repository contains the source code associated with the manuscript:
 "Frequency-Enhanced and Spatial-Guided Feature Pyramid Network for Tiny Object Detection in Remote Sensing Images" (Under Review).
