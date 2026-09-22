@@ -1,0 +1,35 @@
+import os
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import gc
+from mmengine.model import BaseModule
+from mmdet.registry import MODELS, TASK_UTILS
+from mmdet.structures.bbox import bbox_overlaps
+
+class SpatialPropagation(nn.Module):
+    def __init__(self, channels, kernel_size=3):
+        super().__init__()
+        # depthwise conv: each channel has its own filter
+        self.depthwise = nn.Conv2d(channels, channels, kernel_size,
+                                   padding=kernel_size//2, groups=channels, bias=False)
+        # learnable scaling
+        self.alpha = nn.Parameter(torch.tensor(0.5))
+
+    def forward(self, feature, prior):
+        # prior is foreground probability map [B,1,H,W]
+        gate = (prior)
+        modulated = feature * gate
+        propagated = self.depthwise(modulated)
+        return feature + self.alpha * propagated
+
+
+
+@MODELS.register_module()
+class LASERFPN(BaseModule):
+
+    def __init__(self,
+                 fpn_cfg,
+                 fpn_channels=256,
+                 kernel_size=3,
+                
