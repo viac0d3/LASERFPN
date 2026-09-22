@@ -1,4 +1,4 @@
-# LASERFPN
+# LASER-FPN
 
 This repository contains the source code associated with the manuscript:
 
